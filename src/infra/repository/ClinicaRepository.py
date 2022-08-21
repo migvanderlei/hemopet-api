@@ -1,4 +1,4 @@
-from src.domain.adapter.ArtistAdapter import ArtistAdapter
+from src.domain.adapter.AnimalAdapter import ArtistAdapter
 from src.infra.client.MongoDbClient import MongoDbClient
 
 class ArtistRepository:

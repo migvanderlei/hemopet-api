@@ -1,56 +1,77 @@
 """ Main app """
 from flask import Flask, jsonify, request
-from src.domain.use_case.GetAllArtistsUseCase import GetAllArtistsUseCase
 
-from src.domain.use_case.GetArtistUseCase import GetArtistUseCase
-from src.domain.use_case.GetRecommendationUseCase import GetRecommendationUseCase
+from src.domain.adapter.AnimalAdapter import AnimalAdapter
+from src.infra.client.MongoDbClient import MongoDbClient
+from src.infra.repository.AnimalRepository import AnimalRepository
 
 app = Flask(__name__)
+
+animal_adapter = AnimalAdapter()
+animal_repository = AnimalRepository(MongoDbClient())
+
 
 @app.route('/health')
 def get_health():
     """ Returns message to perform a system health check"""
     return "OK"
 
-@app.route('/artist/<artist_id>')
-def get_artist(artist_id):
-    """ Returns a single artist's profile """
-    description = request.args.get('description')
 
-    use_case = GetArtistUseCase()
+@app.route('/animal', methods=['POST'])
+def create_animal():
+    """ Register animal """
+    
+    animal = animal_adapter.from_json(request.get_json())
+    
+    animal_repository.insert_one(animal)
+    
+    return jsonify(animal.reprJSON()), 201
 
-    response = use_case.execute(artist_id, description)
+@app.route('/animal/<animal_id>', methods=["DELETE"])
+def delete_animal(animal_id):
+    """ Delete animal by id """
 
-    if response:
-        return jsonify(response)
-
-    return jsonify({}), 404
-
-
-@app.route('/artists')
-def get_all_artists():
-    """ Returns all artists names and ids """
-    use_case = GetAllArtistsUseCase()
-
-    response = use_case.execute()
+    response = animal_repository.delete_by_id(animal_id)
 
     if response:
-        return jsonify(response)
+        return jsonify({"message": f"Animal {animal_id} removed.", "status": 200}), 200
+    else:
+        return jsonify({"message": f"Animal {animal_id} not found!", "status": 404}), 404
 
-    return jsonify([]), 404
+@app.route('/animal/<animal_id>', methods=["PUT"])
+def update_animal(animal_id):
+    """ Update animal by id """
 
-@app.route('/recommendations/<artist_id>')
-def get_recommendation(artist_id):
-    """ Returns similar artists as recommendation for the given artist """
+    animal = animal_adapter.from_json(request.get_json())
 
-    use_case = GetRecommendationUseCase()
+    if not animal:
+        return jsonify({"message": f"Invalid JSON data!", "status": 400}), 400
 
-    response = use_case.execute(artist_id)
+    response = animal_repository.update(animal)
+
+    if response.matched_count > 0:
+        return jsonify({"message": f"Animal {animal_id} updated.", "status": 200}), 200
+    else:
+        return jsonify({"message": f"Animal {animal_id} not found!", "status": 404}), 404
+
+@app.route('/animal/<animal_id>', methods=["GET"])
+def get_animal(animal_id):
+    """ Get animal by id """
+
+    response = animal_repository.get_by_id(animal_id)
 
     if response:
-        return jsonify(response)
+        return jsonify(response), 200
+    else:
+        return jsonify({"message": f"Animal {animal_id} not found!", "status": 404}), 404
 
-    return jsonify([]), 404
+@app.route('/animais', methods=["GET"])
+def get_animal_list():
+    """ Get all animal by id """
+
+    response = animal_repository.get_all()
+
+    return jsonify(response), 200
 
 
 print("Starting Recommendation Service")

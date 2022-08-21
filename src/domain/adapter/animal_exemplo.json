@@ -1,0 +1,27 @@
+{
+  "id": "1234",
+  "nome": "Rex",
+  "sexo": "macho",
+  "raca": "Daschund",
+  "tipo_sanguineo": "A+",
+  "data_nascimento": "2021-08-10",
+  "status": true,
+  "tutor": {
+    "nome": "João Silva",
+    "cpf": "12345678910",
+    "data_nascimento": "1990-08-03",
+    "telefone": "991234567",
+    "endereco": {
+      "cep": 69022345,
+      "pais": "Brasil",
+      "estado": "AM",
+      "cidade": "Manaus",
+      "bairro": "São Francisco",
+      "rua": "Rua 10",
+      "numero": "123"
+    }
+  },
+  "clinica": "123",
+  "exames": [],
+  "doacoes": []
+}
