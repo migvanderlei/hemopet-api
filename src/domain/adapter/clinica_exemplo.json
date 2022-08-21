@@ -1,0 +1,34 @@
+{
+  "id": "123",
+  "nome": "Bicho Legal",
+  "cnpj": "00000000000100",
+  "telefone": "40028922",
+  "endereco": {
+    "cep": 69022322,
+    "pais": "Brasil",
+    "estado": "AM",
+    "cidade": "Manaus",
+    "bairro": "São Geraldo",
+    "rua": "Av. Constantino Nery",
+    "numero": "2453"
+  },
+  "veterinarios": [
+    {
+      "nome": "Hans Chucrute",
+      "cpf": "00012345612",
+      "crmv": "12345",
+      "data_nascimento": "1989-12-13",
+      "telefone": "932849321",
+      "sexo": "M",
+      "endereco": {
+        "cep": 69022322,
+        "pais": "Brasil",
+        "estado": "AM",
+        "cidade": "Manaus",
+        "bairro": "São Geraldo",
+        "rua": "Av. Constantino Nery",
+        "numero": "2453"
+      }
+    }
+  ]
+}

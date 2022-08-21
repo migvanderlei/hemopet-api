@@ -12,31 +12,6 @@ class AnimalAdapter:
     def __init__(self):
         pass
 
-    # def to_json(self, artist: Artist):
-    #     return {
-    #         "id": artist.id_,
-    #         "name": artist.artist_name,
-    #         "birthDate": artist.date_of_birth,
-    #         "origin": artist.origin,
-    #         "imageUrl": artist.image_url,
-    #         "description": artist.text
-    #     }
-
-    # def to_json_no_text(self, artist: Artist):
-    #     return {
-    #         "id": artist.id_,
-    #         "name": artist.artist_name,
-    #         "birthDate": artist.date_of_birth,
-    #         "origin": artist.origin,
-    #         "imageUrl": artist.image_url,
-    #     }
-
-    # def to_json_only_name(self, artist: Artist):
-    #     return {
-    #         "id": artist.id_,
-    #         "name": artist.artist_name
-    #     }
-
     def from_json(self, raw_data) -> Animal:
 
         if not raw_data:

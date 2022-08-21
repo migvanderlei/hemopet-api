@@ -1,30 +1,28 @@
-from src.domain.adapter.AnimalAdapter import ArtistAdapter
 from src.infra.client.MongoDbClient import MongoDbClient
 
-class ArtistRepository:
+
+class ClinicaRepository:
 
     def __init__(self, mongo_db_client: MongoDbClient):
         self.db = mongo_db_client.get_database()
-        self.collection = self.db['artists_data']
-        self.adapter = ArtistAdapter()
+        self.collection = self.db['clinica']
 
     def get_all(self):
-        raw_artists = self.collection.find()
+        raw_clinica = self.collection.find({}, {'_id': False})
         return [
-            self.adapter.to_artist(raw_artist)
-            for raw_artist in raw_artists
+            raw_clinica
+            for raw_clinica in raw_clinica
         ]
 
-    def get_by_id(self, id_):
-        raw_artist = self.collection.find_one({"id": id_})
-        return self.adapter.to_artist(raw_artist)
-   
-    def get_by_name(self, name):    
-        raw_artist = self.collection.find_one({"name": name})
-        return self.adapter.to_artist(raw_artist)
+    def get_by_id(self, id: str):
+        raw_clinica = self.collection.find_one({"id": id}, {'_id': False})
+        return raw_clinica
 
-    def insert_one(self, artist):
-        self.collection.insert_one(artist)
+    def update(self, clinica):
+        return self.collection.update_one({"id": clinica.id}, {"$set": clinica.reprJSON()})
 
-    def insert_many(self, artists):
-        self.collection.insert_many(artists)
+    def delete_by_id(self, id: str):
+        return self.collection.find_one_and_delete({"id": id})
+
+    def insert_one(self, clinica):
+        return self.collection.insert_one(clinica.reprJSON())

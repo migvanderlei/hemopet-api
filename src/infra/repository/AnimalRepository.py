@@ -1,4 +1,3 @@
-# from src.domain.adapter.ArtistAdapter import ArtistAdapter
 from src.infra.client.MongoDbClient import MongoDbClient
 
 
